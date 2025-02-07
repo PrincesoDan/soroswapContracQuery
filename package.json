@@ -23,13 +23,21 @@
   "license": "MIT",
   "dependencies": {
     "@subql/common": "latest",
-    "@subql/types-stellar": "latest"
+    "@subql/common-stellar": "^4.2.2",
+    "@subql/node-stellar": "^4.4.0",
+    "@subql/types-stellar": "^4.1.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "graphql": "^16.0.0",
+    "rxjs": "^7.1.0",
+    "stellar-sdk": "^13.1.0"
   },
   "devDependencies": {
     "@subql/cli": "latest",
-    "@subql/types": "latest",
     "@subql/testing": "latest",
-    "typescript": "^5.2.2",
-    "dotenv": "latest"
+    "@subql/types": "latest",
+    "@types/node": "^22.13.1",
+    "dotenv": "latest",
+    "typescript": "^5.2.2"
   }
 }
