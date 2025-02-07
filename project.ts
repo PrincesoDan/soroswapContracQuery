@@ -23,6 +23,9 @@ const project: StellarProject = {
     node: {
       name: "@subql/node-stellar",
       version: "*",
+      options: {
+        unsafe: true
+      },
     },
     query: {
       name: "@subql/query",
@@ -52,24 +55,51 @@ const project: StellarProject = {
     endpoint: process.env.ENDPOINT!?.split(',') as string[] | string,
     /* This is a specific Soroban endpoint
       It is only required when you are using a soroban/EventHandler */
-    sorobanEndpoint:"https://testnet.stellar.validationcloud.io/v1/GomGWmuwcBJUFD1HqQ_vNn9mq8K2emLUggKQ-6vezO0",
+    sorobanEndpoint:"https://testnet.stellar.validationclouuwcBJUFD1HqQ_vNn9mq8K2emLUggKQ-6vezO0",
   },
   dataSources: [
     {
       kind: StellarDatasourceKind.Runtime,
       /* Set this as a logical start block, it might be block 1 (genesis) or when your contract was deployed */
-      startBlock: 535620, // Un ledger anterior a la creación del contrato. 
+      startBlock: 55622532, //  Procesed 2025-02-07 03:22:16 UTC 
       mapping: {
         file: "./dist/index.js",
         handlers: [
           {
-            handler: "handleEvent",
+            handler: "handleOperation",
+            kind: StellarHandlerKind.Operation,
+            filter: {
+              type: Horizon.HorizonApi.OperationResponseType.payment,
+            },
+          },
+          {
+            handler: "handleCredit",
+            kind: StellarHandlerKind.Effects,
+            filter: {
+              type: "account_credited",
+            },
+          },
+          {
+            handler: "handleDebit",
+            kind: StellarHandlerKind.Effects,
+            filter: {
+              type: "account_debited",
+            },
+          },
+          // {
+          //   handler: "handleEventtestnet",
+          //   kind: StellarHandlerKind.Event,
+          //   filter: {
+          //     topics: ["COUNT"],
+          //     contractId: "CATU5SWYKJVGHL24R2KOQOUMYXL6MXNY742GWHS2SCUIRYKQPXWCKRMN"
+          //   }
+          // },
+          {
+            handler: "handleEventMainnet", 
             kind: StellarHandlerKind.Event,
             filter: {
-              topics: [
-                "COUNT", // Topic signature(s) for the events, there can be up to 4
-              ],
-              contractId: "CATU5SWYKJVGHL24R2KOQOUMYXL6MXNY742GWHS2SCUIRYKQPXWCKRMN"
+              topics: ["*"],
+              contractId: "CAM7DY53G63XA4AJRS24Z6VFYAFSSF76C3RZ45BE5YU3FQS5255OOABP"
             }
           },
         ],
